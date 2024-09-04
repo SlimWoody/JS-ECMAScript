@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminare 1</title>
+</head>
+
+<body>
+    <script>
+        const arrNumber = [2, 3, 7, 20, 44, 12, 44];
+
+        function getEvenNumber(arr) {
+            return arr.filter((elem) => elem % 2 === 0);
+        }
+
+        console.log(getEvenNumber(arrNumber));
+
+        function calculateAverage(arr) {
+            let average;
+            let sum = arr.reduce((acc, item) => acc +=item, 0);
+            return (sum / arr.length).toFixed(1);
+        }
+
+        console.log(calculateAverage(arrNumber));
+
+        const capitalizeFirstLetter = (str) => {
+            return
+            str.split('').map(word => word.charAt(0).toUpperCase()) + word.slice(1).join(' ');
+        }
+
+        console.log(capitalizeFirstLetter('нello world'));
+    </script>
+</body>
+
+</html>
