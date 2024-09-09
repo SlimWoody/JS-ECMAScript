@@ -59,7 +59,7 @@ class Student {
         this.name = name;
         this.age = age;
         this.grade = grade;
-        this.displayInfo =() => {
+        this.displayInfo = () => {
             // console.log(`Ученик ${this.name}, ${this.age} лет, ${this.grade} класса`);
     
             if (age > 4 && age < 21) {
