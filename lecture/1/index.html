@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Robot {
+            model: 'T-100',
+            counterStart: 0,
+            Uflamp: false,
+
+            startRobot: function () {
+                this.counterStart++;
+                console.log(`Робот включен. Запущен :`, this.counterStart);
+            },
+            stopRobot: function () {
+                console.log('Робот остановлен');
+            }
+        }
+
+        const objRobot = {
+            model: 'T-100',
+            counterStart: 0,
+            Uflamp: false,
+
+            startRobot: function () {
+                this.counterStart++;
+                console.log(`Робот включен. Запущен :`, this.counterStart);
+            },
+            stopRobot: function () {
+                console.log('Робот остановлен');
+            }
+        }
+
+        const RobotRobocop = {
+            model: 'T-400',
+            counterStart: 0,
+            Uflamp: false,
+        }
+
+        RobotRobocop.startRobot = objRobot.startRobot;
+        
+        setTimeout(RobotRobocop.startRobot.bind(RobotRobocop), 2000);
+
+
+        objRobot.startRobot();
+
+    </script>
+</body>
+
+</html>

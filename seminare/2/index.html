@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 2. Основы ООП (объектно-ориентированного программирования)</title>
+</head>
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    .center {
+        margin-left: calc(50% - 520px);
+        margin-right: calc(50% - 520px);
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+    }
+
+    .registration {
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border: 4px solid green;
+        width: 420px;
+
+    }
+
+    .registration a {
+        padding: 5px 15px;
+        border-radius: 8px;
+        width: 100px;
+        margin: 20px 0 10px 0;
+        background-color: #c1b2f34d;
+        color: rgb(29, 29, 154);
+    }
+
+    .registration a:hover {
+        color: #c1b2f34d;
+        background-color: rgb(29, 29, 154);
+    }
+
+    .registration input {
+        width: 300px;
+    }
+
+    .error-border{
+        border: solid 2px red;
+    }
+</style>
+
+<body>
+    <div class="content center">
+
+        <form action="" class="registration">
+            <h2 class="registration__title">Регистрация</h2>
+            <input class="userName userData" id="userName" type="text">
+            <label for="userName">Ваше имя</label>
+            <a href="#" class="button__rename">Сменить имя</a>
+            <input class="userAge userData" id="userAge" type="number">
+            <label class="userAge userData" for="userAge">Ваш возраст</label>
+            <input class="userGender userData" id="userGender" type="text">
+            <label class="userGender userData" for="userGender">Ваш пол</label>
+            <a href="#" class="button__input-alert">Вывод данных</a>
+        </form>
+
+    </div>
+    <script>
+        let inputUserNameEl = document.querySelector('.userName');
+        let buttonUserNameRename = document.querySelector('.button__rename');
+
+        const Person = {
+            userName: 'John',
+            age: 25,
+            gender: 'male',
+            introduce () {console.log(`Мое имя ${this.userName}, мне ${this.age} . Я ${this.gender}`)},
+            changeName () {
+                let newUserName = inputUserNameEl.value;
+                if(newUserName.length <= 2){
+                    inputUserNameEl.classList.add ('error-border');
+                }else{
+                    inputUserNameEl.classList.remove ('error-border');
+                    this.userName = newUserName;
+                }
+
+            }
+            
+            
+        }
+
+        // console.log(Person.userName);
+        // Person.changeName();
+        // console.log(Person.userName);
+        
+        buttonUserNameRename.addEventListener('click', (e) => {
+            e.preventDefault();
+            Person.changeName();
+            Person.introduce();
+        });
+
+
+    </script>
+</body>
+
+</html>
