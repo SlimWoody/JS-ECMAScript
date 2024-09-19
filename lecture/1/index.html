@@ -10,17 +10,16 @@
 <body>
     <script>
         class Robot {
-            model: 'T-100',
-            counterStart: 0,
-            Uflamp: false,
-
-            startRobot: function () {
+            model = 'T-100';
+            counterStart =  0;
+            Uflamp = false;
+            startRobot = function () {
                 this.counterStart++;
                 console.log(`Робот включен. Запущен :`, this.counterStart);
-            },
-            stopRobot: function () {
+            };
+            stopRobot =  function () {
                 console.log('Робот остановлен');
-            }
+            };
         }
 
         const objRobot = {

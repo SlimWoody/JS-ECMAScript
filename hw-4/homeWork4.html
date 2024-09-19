@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 4. Асинхронность в Javascript</title>
+</head>
+
+<body>
+    <div class="user-info">
+
+    </div>
+    <form action="#">
+        <input id="found-user" class="found-user" type="number">
+        <label for="found-user">Введите ID пользователя</label>
+        <div>
+            <button class="search" style="margin-top: 10px;">Искать</button>
+        </div>
+    </form>
+    <script>
+        /*
+        ""Получение данных о пользователе""
+
+        Реализуйте функцию getUserData, которая принимает идентификатор пользователя (ID) в качестве аргумента и использует fetch для получения данных о пользователе с заданным ID с удаленного сервера. Функция должна возвращать промис, который разрешается с данными о пользователе в виде объекта. Если пользователь с указанным ID не найден, промис должен быть отклонен с соответствующим сообщением об ошибке.
+
+        Подсказка, с последовательностью действий:
+        getUserData использует fetch для получения данных о пользователе с удаленного сервера. Если запрос успешен (с кодом 200), функция извлекает данные из ответа с помощью response.json() и возвращает объект с данными о пользователе. Если запрос неуспешен, функция отклоняет промис с сообщением об ошибке.
+        */
+        const userIdInput = document.querySelector('.found-user');
+        const buttonSearchEl = document.querySelector('.search');
+        let userInfoEl = document.querySelector('.user-info');
+
+        const renderUser = (user) => {
+            userInfoEl.innerHTML = '';
+            const findUser = document.createElement('div');
+            findUser.innerHTML = `
+            <h2>Name: ${user.name}</h2>
+            <h3>ID: ${user.id}</h3>
+            `
+            userInfoEl.appendChild(findUser);
+        }
+
+        buttonSearchEl.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (userIdInput.value) {
+                const userId = parseInt(userIdInput.value, 10);
+                getUserData(userId);
+            } else {
+                console.log('Введите данные заного ');
+            }
+        });
+
+        const getUserData = (userId) => {
+            return fetch('https://jsonplaceholder.typicode.com/users')
+                .then(response => {
+                    if (response.ok) { // можно проверить с помощью response.ok, который возвращает true для всех кодов успешного диапазона (200–299).
+                        return response.json();
+                    } else {
+                        return Promise.reject(new Error(`Ошибка, данные неполученны ${response.status}`))
+                    }
+                })
+                .then((data) => {
+                    const userFound = data.find(user => user.id == userId);
+                    if (userFound) {
+                        renderUser(userFound);
+                    } else {
+                        userInfoEl.innerHTML = '';
+                        const errorElMessage = document.createElement('h2');
+                        errorElMessage.textContent = 'Пользователь не найден!';
+                        userInfoEl.append(errorElMessage);
+                    }
+                })
+        }
+
+        /*
+        ""Отправка данных на сервер""
+
+        Реализуйте функцию saveUserData, которая принимает объект с данными о пользователе в качестве аргумента и использует fetch для отправки этих данных на удаленный сервер для сохранения. Функция должна возвращать промис, который разрешается, если данные успешно отправлены, или отклоняется в случае ошибки.
+
+        *Подсказка *
+        // Пример использования функции
+        const user = {
+        name: 'John Smith',
+        age: 30,
+        email: 'john@example.com'
+        };
+
+        saveUserData(user)
+        .then(() => {
+        console.log('User data saved successfully');
+        })
+        .catch(error => {
+        console.log(error.message);
+        });
+
+        saveUserData использует fetch для отправки данных о пользователе на удаленный сервер для сохранения. Она отправляет POST-запрос на URL-адрес /users с указанием типа содержимого application/json и сериализует объект с данными о пользователе в JSON-строку с помощью JSON.stringify(). Если запрос успешен (с кодом 200), функция разрешает промис. Если запрос неуспешен, функция отклоняет промис с сообщени
+        */
+        function saveUserData(user) {
+            return fetch('https://jsonplaceholder.typicode.com/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return Promise.reject(new Error('Не удалось сохранить пользовательские данные'));
+                    }
+                })
+                .catch(error => Promise.reject(error));
+        }
+
+
+        const user = {
+            name: 'Лузин Павел',
+            age: 30,
+            email: 'st_dizainer@maler.ru'
+        };
+
+        saveUserData(user)
+            .then(() => console.log('Пользовательские данные успешно сохранены'))
+            .catch(error => console.error(error.message));
+
+/*
+""Изменение стиля элемента через заданное время""
+
+Напишите функцию changeStyleDelayed, которая принимает идентификатор элемента и время задержки (в миллисекундах) в качестве аргументов. Функция должна изменить стиль элемента через указанное время.
+
+// Пример использования функции
+changeStyleDelayed('myElement', 2000); // Через 2 секунды изменяет стиль элемента с id 'myElement'"
+*/
+function changeStyleDelayed(elementName, delay) {
+    setTimeout(() => {
+        const element = document.querySelector(elementName);
+        if (element) {
+            element.style.backgroundColor = 'black'; // Например, изменяем цвет фона
+            element.style.color = 'white'; // Изменяем цвет текста
+        } else {
+            console.error(`Element with ID ${element} not found`);
+        }
+    }, delay);
+}
+
+
+changeStyleDelayed('body', 2000)
+
+    </script>
+</body>
+
+</html>

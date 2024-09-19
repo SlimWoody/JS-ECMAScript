@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 4. Асинхронность в Javascript</title>
+</head>
+
+<body>
+    <div class="content">
+        <ul class="userList">
+            <li class="user">Павел</li>
+            <li class="user">Никита</li>
+            <li class="user">Олег</li>
+            <li class="user">Антон</li>
+            <li class="user">Михаил</li>
+            <li class="user">Василий</li>
+            <li class="user">Роман</li>
+            <li class="user">Дмитрий</li>
+            <li class="user">Константин</li>
+            <li class="user">Василий</li>
+        </ul>
+        <button class="button__sort">
+            Сортировка списка по имени
+        </button>
+    </div>
+
+    <script>
+
+        //  -----------------------------------------------
+        function delayedMassage(message, delay) {
+            setTimeout(function () {
+                console.log(message);
+            }, delay)
+        }
+
+        delayedMassage('Привет-1', 2000);
+        delayedMassage('Привет-2', 1000);
+        delayedMassage('Привет-3', 3000);
+        delayedMassage('Завершение программы', 3000);
+
+        //  -----------------------------------------------------
+
+        const tasks = [
+            { name: 'task-1', time: 1000 },
+            { name: 'task-2', time: 2000 },
+            { name: 'task-3', time: 3000 },
+            { name: 'task-4', time: 4000 },
+            { name: 'task-5', time: 5000 },
+        ]
+
+        function getTasks(tasks) {
+            let delay = 0;
+            tasks.forEach(task => {
+                setTimeout(() => {
+                    console.log(task.name);
+                }, delay);
+                delay += task.time;
+            });
+        }
+
+        getTasks(tasks);
+        //  ----------------------------------------------------
+        const userUrl = 'https:/api.github.com/users/octocat';
+        function loadData(url) {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            }
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+
+        loadData(userUrl);
+        //  -----------------------------------------------
+        fetch('https:/api.github.com/users/octocatde')
+            .then((result) => {
+                if (result.ok) {
+                    return result.text();
+                }
+                throw new Error("Ошибка");
+
+            }).then((data) => {
+                console.log(data);
+            }).catch((err) => {
+                console.error('Много ошибок');
+            });
+        //  -------------------------------------------------
+        const UserBoxEl = document.querySelector('.userList');
+        const userList = document.querySelectorAll('.user');
+        const butttonSortEl = document.querySelector('.button__sort');
+
+        const arrUserList = Array.from(userList);
+
+        function userSort(arrUser) {
+            const newUserList = arrUserList.sort((a, b) => {
+                return a.textContent.localeCompare(b.textContent);
+            });
+
+            userList.forEach(user => user.remove());
+
+            newUserList.forEach(user => UserBoxEl.appendChild(user));
+        }
+
+        butttonSortEl.addEventListener('click', userSort);
+    </script>
+</body>
+
+</html>
